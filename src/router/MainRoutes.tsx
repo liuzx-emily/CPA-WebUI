@@ -1,5 +1,6 @@
 import { Navigate, useRoutes, type Location } from 'react-router-dom';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { MyFocusPage } from '@/pages/MyFocusPage';
 import { AiProvidersPage } from '@/pages/AiProvidersPage';
 import { AiProvidersAmpcodeEditPage } from '@/pages/AiProvidersAmpcodeEditPage';
 import { AiProvidersClaudeEditLayout } from '@/pages/AiProvidersClaudeEditLayout';
@@ -24,6 +25,7 @@ import { SystemPage } from '@/pages/SystemPage';
 const mainRoutes = [
   { path: '/', element: <DashboardPage /> },
   { path: '/dashboard', element: <DashboardPage /> },
+  { path: '/my-focus', element: <MyFocusPage /> },
   { path: '/settings', element: <Navigate to="/config" replace /> },
   { path: '/api-keys', element: <Navigate to="/config" replace /> },
   { path: '/ai-providers/gemini/new', element: <AiProvidersGeminiEditPage /> },

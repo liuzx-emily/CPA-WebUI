@@ -1,0 +1,284 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sectionActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sectionTitleIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.lightButton {
+  padding: 4px 12px !important;
+  font-size: 0.8125rem !important;
+  min-width: unset !important;
+  line-height: 1.4 !important;
+  border-radius: 4px !important;
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  color: #fff !important;
+
+  &:hover {
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+  }
+
+  &:active {
+    background-color: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+  }
+
+  &:disabled {
+    background-color: #93c5fd !important;
+    border-color: #93c5fd !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.compactTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.5;
+
+  th,
+  td {
+    padding: 7px 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border-color, rgba(128, 128, 128, 0.15));
+    max-width: 300px;
+  }
+
+  th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: left;
+    position: sticky;
+    top: 0;
+    background: var(--bg-primary, #fff);
+    z-index: 1;
+  }
+
+  tbody tr {
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--bg-hover, rgba(0, 0, 0, 0.03));
+    }
+  }
+
+  [class*='ToggleSwitch-module__track'] {
+    width: 34px;
+    height: 18px;
+  }
+
+  [class*='ToggleSwitch-module__thumb'] {
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+  }
+
+  input:checked + [class*='ToggleSwitch-module__track'] {
+    background: #4CAF50;
+  }
+
+  input:checked + [class*='ToggleSwitch-module__track'] [class*='ToggleSwitch-module__thumb'] {
+    transform: translateX(16px);
+  }
+
+  :global(.dark) input:checked + [class*='ToggleSwitch-module__track'] {
+    background: #4ade80;
+  }
+}
+
+.colIndex {
+  width: 36px;
+  min-width: 36px;
+  text-align: center;
+}
+
+.colApiKey {
+  width: 180px;
+  min-width: 150px;
+}
+
+.colUrl {
+  min-width: 140px;
+}
+
+.colName {
+  min-width: 160px;
+}
+
+.colQuota {
+  width: 80px;
+  min-width: 70px;
+}
+
+.colResetTime {
+  width: 80px;
+  min-width: 70px;
+}
+
+.colStatus {
+  width: 70px;
+  min-width: 70px;
+}
+
+.colStats {
+  width: 100px;
+  min-width: 90px;
+}
+
+.rowDisabled {
+  opacity: 0.55;
+}
+
+.rowEnabled {
+  background-color: #f9fcf6;
+
+  &:hover {
+    background-color: #ebf3e2 !important;
+  }
+}
+
+.rowVirtual {
+  opacity: 0.7;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.statusVirtual {
+  background-color: rgba(128, 128, 128, 0.12);
+  color: var(--text-secondary);
+}
+
+.statSuccess {
+  color: #1a7f37;
+  font-weight: 500;
+}
+
+.statWarning {
+  color: #9a6700;
+  font-weight: 500;
+}
+
+.statFailure {
+  color: #cf222e;
+  font-weight: 500;
+}
+
+.urlCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quotaCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.urlLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #3b82f6;
+  border-radius: 3px;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+  flex-shrink: 0;
+
+  &:hover {
+    color: #2563eb;
+    background-color: rgba(59, 130, 246, 0.08);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+:global(.dark) {
+  .statSuccess {
+    color: #56d364;
+  }
+
+  .statWarning {
+    color: #d29922;
+  }
+
+  .statFailure {
+    color: #f85149;
+  }
+
+  .statusVirtual {
+    background-color: rgba(128, 128, 128, 0.2);
+    color: var(--text-secondary);
+  }
+}

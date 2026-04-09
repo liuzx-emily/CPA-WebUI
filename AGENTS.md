@@ -10,6 +10,8 @@
 
 **不要**在 `src/components/`、`src/services/`、`src/stores/`、`src/hooks/`、`src/utils/` 等上游已有的目录中创建新文件。
 
+参照现有模块：`src/features/authFiles/`、`src/features/myFocus/`。
+
 ### 2. 最小化对上游文件的修改
 
 - **添加而非修改**：在上游文件中追加代码，不要修改已有的代码行
@@ -29,6 +31,14 @@
 ## 上游文件修改清单
 
 同步上游时根据此表定位冲突，冲突解决原则：**优先保留上游变更，在此基础上重新添加自定义代码**。
+
+| 文件                                   | 修改内容                                       | 添加位置          |
+| -------------------------------------- | ---------------------------------------------- | ----------------- |
+| `src/router/MainRoutes.tsx`            | 添加 `/my-focus` 路由                          | 路由列表末尾      |
+| `src/components/layout/MainLayout.tsx` | 添加"我的关注"导航项，标签改为硬编码中文       | navItems 数组末尾 |
+| `src/components/ui/icons.tsx`          | 添加 IconSidebarMyFocus 图标                   | 图标定义区域      |
+| `src/types/quota.ts`                   | 添加 `resetAtSeconds` 字段到 CodexQuotaWindow  | 接口定义区域      |
+| `src/components/quota/quotaConfigs.ts` | 添加 `resetAtSeconds` 计算逻辑                 | addWindow 函数内  |
 
 > 新增修改时请更新此表。
 
