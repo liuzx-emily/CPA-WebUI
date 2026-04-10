@@ -51,7 +51,7 @@ jobs:
           fi
 
           : > release-notes.md
-          git log --pretty=format:"- %h %s" "${range}" >> release-notes.md
+          git log --pretty=format:"- %h %s" --first-parent --no-merges "${range}" >> release-notes.md
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
