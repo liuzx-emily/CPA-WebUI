@@ -46,12 +46,9 @@ git fetch upstream
 git merge upstream/main    # 冲突优先保留上游变更，再重新添加自定义代码
 git push origin dev
 
-# 发布（合并到 main 并打标签）
-git checkout main
-git merge dev
-git push origin main
-git tag v1.1.0
-git push origin v1.1.0
+# 发布（使用自动化脚本）
+npm run release
+# 脚本会引导选择版本变更类型（patch/minor/major），自动完成合并、打标签、推送
 ```
 
 #### 合并策略
@@ -67,6 +64,14 @@ git push origin v1.1.0
 **构建产物**：`npm run build` 通过 `vite-plugin-singlefile` 生成单文件 `dist/index.html`，所有资源内联。Release 流程中重命名为 `management.html`。
 
 **发布触发**：推送 `v*` 标签触发 `.github/workflows/release.yml`。
+
+**发布方式**：在 `dev` 分支上运行 `npm run release`，脚本会自动执行以下步骤：
+
+1. 前置检查（当前分支、工作区状态、远程同步）
+2. 选择版本变更类型（patch / minor / major）
+3. 确认后自动：切换到 main → 合并 dev → 推送 main → 创建标签 → 推送标签 → 切回 dev
+
+脚本源码见 `scripts/release.mjs`。
 
 **Fork 项目注意事项**：
 
