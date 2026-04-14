@@ -46,9 +46,9 @@ git fetch upstream
 git merge upstream/main    # 冲突优先保留上游变更，再重新添加自定义代码
 git push origin dev
 
-# 发布（使用自动化脚本）
+# 发布（在 dev 上使用自动化脚本）
 npm run release
-# 脚本会引导选择版本变更类型（patch/minor/major），自动完成合并、打标签、推送
+# 脚本会引导选择版本变更类型（patch/minor/major），自动完成切换分支、merge、push、打标签等操作。操作完成后（不论成功或失败），自动切回 dev 分支
 ```
 
 #### 合并策略
