@@ -351,6 +351,52 @@ export function MyFocusPage() {
     });
   }, [codexAuthFiles, setCodexQuota, t]);
 
+  const handleRefreshEnabledQuota = useCallback(async () => {
+    const targets = codexAuthFiles.filter(
+      (f) => !f.disabled && !isRuntimeOnlyAuthFile(f) && !quotaLoadingRef.current.has(f.name)
+    );
+    if (targets.length === 0) return;
+
+    targets.forEach((f) => quotaLoadingRef.current.add(f.name));
+
+    setCodexQuota((prev) => {
+      const next = { ...prev };
+      targets.forEach((f) => {
+        next[f.name] = CODEX_CONFIG.buildLoadingState();
+      });
+      return next;
+    });
+
+    const results = await Promise.allSettled(
+      targets.map(async (file) => {
+        try {
+          const data = await CODEX_CONFIG.fetchQuota(file, t);
+          return { name: file.name, data };
+        } catch (err: unknown) {
+          const { message, status } = getQuotaErrorInfo(err);
+          return { name: file.name, error: message, errorStatus: status };
+        } finally {
+          quotaLoadingRef.current.delete(file.name);
+        }
+      })
+    );
+
+    setCodexQuota((prev) => {
+      const next = { ...prev };
+      results.forEach((result) => {
+        if (result.status === 'fulfilled') {
+          const val = result.value;
+          if ('data' in val && val.data) {
+            next[val.name] = CODEX_CONFIG.buildSuccessState(val.data);
+          } else {
+            next[val.name] = CODEX_CONFIG.buildErrorState(val.error, val.errorStatus);
+          }
+        }
+      });
+      return next;
+    });
+  }, [codexAuthFiles, setCodexQuota, t]);
+
   return (
     <div className={styles.page}>
       <div className={styles.section}>
@@ -380,9 +426,20 @@ export function MyFocusPage() {
             </Button>
             <Button
               size="sm"
+              variant="secondary"
+              onClick={handleRefreshEnabledQuota}
+              disabled={disableControls || authLoading}
+              className={styles.enabledRefreshButton}
+              title="刷新已启用项的额度"
+            >
+              刷新启用
+            </Button>
+            <Button
+              size="sm"
               onClick={handleRefreshAllQuota}
               disabled={disableControls || authLoading}
               className={styles.lightButton}
+              title="刷新所有项的额度"
             >
               刷新全部
             </Button>

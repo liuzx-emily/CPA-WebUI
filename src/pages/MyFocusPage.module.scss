@@ -64,6 +64,33 @@
   }
 }
 
+.enabledRefreshButton {
+  padding: 4px 12px !important;
+  font-size: 0.8125rem !important;
+  min-width: unset !important;
+  line-height: 1.4 !important;
+  border-radius: 4px !important;
+  background-color: #16a34a !important;
+  border-color: #16a34a !important;
+  color: #fff !important;
+
+  &:hover {
+    background-color: #15803d !important;
+    border-color: #15803d !important;
+  }
+
+  &:active {
+    background-color: #166534 !important;
+    border-color: #166534 !important;
+  }
+
+  &:disabled {
+    background-color: #86efac !important;
+    border-color: #86efac !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+}
+
 .tableWrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
