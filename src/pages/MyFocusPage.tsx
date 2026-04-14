@@ -399,99 +399,101 @@ export function MyFocusPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionTitle}>
-            <img src={iconCodex} alt="" className={styles.sectionTitleIcon} />
-            Codex 认证文件
-          </span>
-          <div className={styles.sectionActions}>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => void handleToggleAllAuthFiles(true)}
-              disabled={disableControls || authLoading}
-              className={styles.lightButton}
-            >
-              全部启用
-            </Button>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => void handleToggleAllAuthFiles(false)}
-              disabled={disableControls || authLoading}
-              className={styles.lightButton}
-            >
-              全部禁用
-            </Button>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={handleRefreshEnabledQuota}
-              disabled={disableControls || authLoading}
-              className={styles.enabledRefreshButton}
-              title="刷新已启用项的额度"
-            >
-              刷新启用
-            </Button>
-            <Button
+      <div className={styles.columnsLayout}>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionTitle}>
+              <img src={iconCodex} alt="" className={styles.sectionTitleIcon} />
+              Codex 认证文件
+            </span>
+            <div className={styles.sectionActions}>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => void handleToggleAllAuthFiles(true)}
+                disabled={disableControls || authLoading}
+                className={styles.lightButton}
+              >
+                全部启用
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => void handleToggleAllAuthFiles(false)}
+                disabled={disableControls || authLoading}
+                className={styles.lightButton}
+              >
+                全部禁用
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={handleRefreshEnabledQuota}
+                disabled={disableControls || authLoading}
+                className={styles.enabledRefreshButton}
+                title="刷新已启用项的额度"
+              >
+                刷新启用
+              </Button>
+              <Button
               size="sm"
               onClick={handleRefreshAllQuota}
               disabled={disableControls || authLoading}
-              className={styles.lightButton}
+              className={`${styles.lightButton} ${styles.refreshAllButton}`}
               title="刷新所有项的额度"
             >
               刷新全部
             </Button>
+            </div>
           </div>
+          <CodexAuthFilesTable
+            files={codexAuthFiles}
+            keyStats={keyStats}
+            loading={authLoading}
+            disableControls={disableControls}
+            statusUpdating={statusUpdating}
+            codexQuota={codexQuota}
+            onToggleStatus={handleToggleAuthFileStatus}
+            onRefreshQuota={handleRefreshQuota}
+          />
         </div>
-        <CodexAuthFilesTable
-          files={codexAuthFiles}
-          keyStats={keyStats}
-          loading={authLoading}
-          disableControls={disableControls}
-          statusUpdating={statusUpdating}
-          codexQuota={codexQuota}
-          onToggleStatus={handleToggleAuthFileStatus}
-          onRefreshQuota={handleRefreshQuota}
-        />
-      </div>
 
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionTitle}>
-            <img src={iconCodex} alt="" className={styles.sectionTitleIcon} />
-            Codex API 配置
-          </span>
-          <div className={styles.sectionActions}>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => void handleToggleAllCodexConfigs(true)}
-              disabled={disableControls || loading || isSwitching}
-              className={styles.lightButton}
-            >
-              全部启用
-            </Button>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => void handleToggleAllCodexConfigs(false)}
-              disabled={disableControls || loading || isSwitching}
-              className={styles.lightButton}
-            >
-              全部禁用
-            </Button>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionTitle}>
+              <img src={iconCodex} alt="" className={styles.sectionTitleIcon} />
+              Codex API 配置
+            </span>
+            <div className={styles.sectionActions}>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => void handleToggleAllCodexConfigs(true)}
+                disabled={disableControls || loading || isSwitching}
+                className={styles.lightButton}
+              >
+                全部启用
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => void handleToggleAllCodexConfigs(false)}
+                disabled={disableControls || loading || isSwitching}
+                className={styles.lightButton}
+              >
+                全部禁用
+              </Button>
+            </div>
           </div>
+          <CodexApiTable
+            configs={codexConfigs}
+            keyStats={keyStats}
+            loading={loading}
+            disableControls={disableControls}
+            isSwitching={isSwitching}
+            onToggle={handleToggleCodexConfig}
+          />
         </div>
-        <CodexApiTable
-          configs={codexConfigs}
-          keyStats={keyStats}
-          loading={loading}
-          disableControls={disableControls}
-          isSwitching={isSwitching}
-          onToggle={handleToggleCodexConfig}
-        />
       </div>
     </div>
   );
