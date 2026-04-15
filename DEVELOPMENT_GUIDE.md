@@ -48,7 +48,7 @@ git push origin dev
 
 # 发布（在 dev 上使用自动化脚本）
 npm run release
-# 脚本会引导选择版本变更类型（patch/minor/major），自动完成切换分支、merge、push、打标签等操作。操作完成后（不论成功或失败），自动切回 dev 分支
+# 脚本会先校验本地 dev 与 origin/dev 是否完全一致；若只是本地 ahead 未 push，会先询问是否自动推送。通过检查后，再引导选择版本变更类型（patch/minor/major），并自动完成切换分支、merge、push、打标签等操作。操作完成后（不论成功或失败），自动切回 dev 分支
 ```
 
 #### 合并策略
@@ -67,7 +67,7 @@ npm run release
 
 **发布方式**：在 `dev` 分支上运行 `npm run release`，脚本会自动执行以下步骤：
 
-1. 前置检查（当前分支、工作区状态、远程同步）
+1. 前置检查（当前分支、工作区状态、`dev` 与 `origin/dev` 一致性；若只是本地 ahead 未 push，可确认后自动推送）
 2. 选择版本变更类型（patch / minor / major）
 3. 确认后自动：切换到 main → 合并 dev → 推送 main → 创建标签 → 推送标签 → 切回 dev
 

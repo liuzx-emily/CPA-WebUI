@@ -65,6 +65,24 @@ function formatVersion(v) {
   return `${v.major}.${v.minor}.${v.patch}`;
 }
 
+function getDevSyncState() {
+  const remoteDev = run("git rev-parse origin/dev", { allowFail: true });
+  if (!remoteDev) {
+    console.error('[X] 未找到远程分支 "origin/dev"，无法继续发版');
+    process.exit(1);
+  }
+
+  const counts = run("git rev-list --left-right --count origin/dev...dev");
+  const [behindCountRaw, aheadCountRaw] = counts.split(/\s+/);
+  const behindCount = Number(behindCountRaw);
+  const aheadCount = Number(aheadCountRaw);
+
+  if (behindCount === 0 && aheadCount === 0) return "in_sync";
+  if (behindCount === 0 && aheadCount > 0) return "local_ahead";
+  if (behindCount > 0 && aheadCount === 0) return "remote_ahead";
+  return "diverged";
+}
+
 async function main() {
   console.log("=== CPA-WebUI 发版工具 ===\n");
 
@@ -84,10 +102,33 @@ async function main() {
   console.log("[*] 拉取远程最新信息...");
   run("git fetch origin");
 
-  const localDev = run("git rev-parse dev");
-  const remoteDev = run("git rev-parse origin/dev", { allowFail: true });
-  if (remoteDev && localDev !== remoteDev) {
-    console.error("[X] 本地 dev 分支未推送到远程，请先 git push origin dev");
+  let devSyncState = getDevSyncState();
+  if (devSyncState === "local_ahead") {
+    const shouldPush = await question(
+      "[*] 检测到本地 dev 有未推送提交，是否现在自动执行 git push origin dev ? (y/N): ",
+    );
+    if (shouldPush.toLowerCase() !== "y") {
+      console.log("已取消");
+      process.exit(0);
+    }
+
+    console.log("[*] 推送本地 dev 到远程...");
+    runLive("git push origin dev");
+    devSyncState = getDevSyncState();
+  }
+
+  if (devSyncState === "remote_ahead") {
+    console.error('[X] 本地 dev 与 origin/dev 不一致：远端分支更新更多，请先手动同步后再发版');
+    process.exit(1);
+  }
+
+  if (devSyncState === "diverged") {
+    console.error('[X] 本地 dev 与 origin/dev 已分叉，请先手动处理分支同步后再发版');
+    process.exit(1);
+  }
+
+  if (devSyncState !== "in_sync") {
+    console.error('[X] 本地 dev 与 origin/dev 仍未完全一致，请先处理后再发版');
     process.exit(1);
   }
 
