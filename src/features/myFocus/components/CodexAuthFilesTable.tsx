@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToggleSwitch } from '@/components/ui/ToggleSwitch';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -20,11 +20,28 @@ interface CodexAuthFilesTableProps {
   onRefreshQuota: (file: AuthFileItem) => void;
 }
 
-const CODEX_NAME_PATTERN = /^codex-(.+)@hotmail\.com-free\.json$/;
+const CODEX_NAME_PATTERN = /^codex-(.+)@(.+)-free\.json$/;
 
-function formatAuthFileName(name: string): string {
+const LOW_PRIORITY_EMAIL_DOMAINS = ['hotmail.com'] as const;
+
+function getEmailTagClassName(emailSuffix: string): string {
+  const isLowPriority = LOW_PRIORITY_EMAIL_DOMAINS.includes(
+    emailSuffix as (typeof LOW_PRIORITY_EMAIL_DOMAINS)[number]
+  );
+  return isLowPriority ? `${styles.emailTag} ${styles.emailTagLowPriority}` : styles.emailTag;
+}
+
+function formatAuthFileName(name: string): React.ReactNode {
   const match = CODEX_NAME_PATTERN.exec(name);
-  return match ? match[1] : name;
+  if (!match) return name;
+  const [, username, emailSuffix] = match;
+  const domainPart = emailSuffix.endsWith('.com') ? emailSuffix.slice(0, -4) : emailSuffix;
+  return (
+    <>
+      <span className={getEmailTagClassName(emailSuffix)}>{domainPart}</span>
+      {username}
+    </>
+  );
 }
 
 function formatResetCountdown(resetAtSeconds: number | null | undefined): string {
@@ -66,10 +83,7 @@ export function CodexAuthFilesTable({
 
   if (!files.length) {
     return (
-      <EmptyState
-        title="暂无 Codex 认证文件"
-        description="请在认证文件页面上传 Codex 认证文件"
-      />
+      <EmptyState title="暂无 Codex 认证文件" description="请在认证文件页面上传 Codex 认证文件" />
     );
   }
 
@@ -135,16 +149,17 @@ export function CodexAuthFilesTable({
                       disabled={quotaLoading || disableControls}
                       title="刷新额度"
                     >
-                      <IconRefreshCw size={11} className={quotaLoading ? styles.spinning : undefined} />
+                      <IconRefreshCw
+                        size={11}
+                        className={quotaLoading ? styles.spinning : undefined}
+                      />
                     </button>
                   </span>
                 </td>
                 <td className={styles.colResetTime}>{resetTimeLabel}</td>
                 <td className={styles.colStatus}>
                   {isRuntimeOnly ? (
-                    <span className={`${styles.statusBadge} ${styles.statusVirtual}`}>
-                      虚拟
-                    </span>
+                    <span className={`${styles.statusBadge} ${styles.statusVirtual}`}>虚拟</span>
                   ) : (
                     <ToggleSwitch
                       ariaLabel="切换启用状态"

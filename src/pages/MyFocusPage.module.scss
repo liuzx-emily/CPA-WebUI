@@ -85,9 +85,9 @@
 }
 
 .refreshAllButton {
-  background-color: #FFF8E1 !important;
+  background-color: #fff8e1 !important;
   border-color: #fdd9a5 !important;
-  color: #BF360C !important;
+  color: #bf360c !important;
 
   &:hover {
     background-color: #ffefc2 !important;
@@ -186,7 +186,7 @@
   }
 
   input:checked + [class*='ToggleSwitch-module__track'] {
-    background: #4CAF50;
+    background: #4caf50;
   }
 
   input:checked + [class*='ToggleSwitch-module__track'] [class*='ToggleSwitch-module__thumb'] {
@@ -265,6 +265,26 @@
 .statusVirtual {
   background-color: rgba(128, 128, 128, 0.12);
   color: var(--text-secondary);
+}
+
+.emailTag {
+  --tag-bg: #e8f0fe;
+  --tag-border: #c2d7fe;
+  --tag-color: #1a73e8;
+
+  display: inline-block;
+  padding: 1px 5px;
+  margin-right: 4px;
+  font-size: 0.75rem;
+  background-color: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: 3px;
+  color: var(--tag-color);
+  vertical-align: middle;
+}
+
+.emailTagLowPriority {
+  display: none;
 }
 
 .statSuccess {
@@ -349,6 +369,16 @@
   .statusVirtual {
     background-color: rgba(128, 128, 128, 0.2);
     color: var(--text-secondary);
+  }
+
+  .emailTag {
+    --tag-bg: rgba(26, 115, 232, 0.15);
+    --tag-border: rgba(26, 115, 232, 0.3);
+    --tag-color: #8ab4f8;
+  }
+
+  .emailTagLowPriority {
+    display: none;
   }
 }
 
