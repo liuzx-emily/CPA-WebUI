@@ -42,7 +42,7 @@ git commit -m "feat: 新功能"
 git push origin dev
 
 # 同步上游（在 dev 上）
-git fetch upstream
+git fetch --no-tags upstream #--no-tags 避免把 upstream 的发布标签同步到本地，影响本仓库后续发版时的版本号判断
 git merge upstream/main    # 冲突优先保留上游变更，再重新添加自定义代码
 git push origin dev
 
